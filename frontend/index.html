@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Deep Research Engine</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:40px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{
+    margin-top:0;
+}
+
+input{
+    width:80%;
+    padding:12px;
+    font-size:16px;
+}
+
+button{
+    padding:12px 20px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#answer{
+    margin-top:30px;
+    line-height:1.6;
+}
+
+.sources{
+    margin-top:20px;
+}
+
+.source{
+    margin-bottom:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Deep Research Engine</h1>
+
+<p>Ask anything and the system will search the web.</p>
+
+<input id="query" placeholder="Ask a question..." />
+<button onclick="ask()">Search</button>
+
+<div id="answer"></div>
+
+<div class="sources" id="sources"></div>
+
+</div>
+
+<script>
+
+async function ask(){
+
+    const query = document.getElementById("query").value
+
+    document.getElementById("answer").innerHTML = "Researching..."
+
+    const response = await fetch(
+        "http://127.0.0.1:8000/ask?query=" + encodeURIComponent(query)
+    )
+
+    const data = await response.json()
+
+    document.getElementById("answer").innerHTML = "<h3>Answer</h3>" + data.answer
+
+    let sourcesHTML = "<h3>Sources</h3>"
+
+    data.sources.forEach(s => {
+        sourcesHTML += `<div class="source"><a href="${s}" target="_blank">${s}</a></div>`
+    })
+
+    document.getElementById("sources").innerHTML = sourcesHTML
+}
+
+</script>
+
+</body>
+</html>
