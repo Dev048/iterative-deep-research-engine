@@ -73,3 +73,19 @@ Create environment file
 Then run:
 
 python backend/app/main.py
+
+## Architecture Overview
+
+This system implements an iterative research pipeline using
+retrieval augmented generation (RAG).
+
+Pipeline stages:
+
+1. Web search
+2. Page fetching
+3. Document chunking
+4. Embedding generation
+5. Vector storage (Qdrant)
+6. Hybrid retrieval
+7. Reranking
+8. LLM answer generation
