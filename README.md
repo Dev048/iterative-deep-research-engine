@@ -1,133 +1,173 @@
 # Iterative Deep Research Engine
 
-An AI-powered research system that performs web search, retrieves relevant sources, and generates grounded answers using a Retrieval-Augmented Generation (RAG) pipeline.
+An AI-powered research system that performs web-scale information retrieval and generates grounded answers using a Retrieval-Augmented Generation (RAG) pipeline.
 
-The system automatically gathers information from the web, processes documents, stores embeddings in a vector database, and generates answers with citations.
+The system mimics modern research assistants (e.g., Perplexity-style systems) by combining real-time web search, document processing, vector retrieval, and LLM-based reasoning to produce source-backed answers.
 
-This project demonstrates how modern AI systems like Perplexity-style research assistants are built.
+---
+
+# Overview
+
+This project demonstrates how to build an end-to-end **AI research pipeline** that:
+
+• retrieves real-time information from the web
+• processes and indexes unstructured documents
+• performs hybrid semantic + keyword retrieval
+• reranks results for relevance
+• generates grounded responses with citations
 
 ---
 
 # Features
 
-* Web search integration for real-time information
-* Automatic webpage fetching and processing
-* Document chunking and embedding generation
-* Vector search using Qdrant
-* Hybrid retrieval for better context selection
-* Reranking for higher quality sources
-* Retrieval-Augmented Generation (RAG)
-* Source-backed answers
+• Real-time web search integration
+• Automatic webpage fetching and parsing
+• Document chunking and embedding generation
+• Vector storage using Qdrant
+• Hybrid retrieval (semantic + keyword)
+• Reranking for improved relevance
+• Retrieval-Augmented Generation (RAG)
+• Source-backed answer generation
 
 ---
 
-# System Architecture
+# Architecture
 
-User Query
-↓
-Web Search
-↓
-Page Fetching
-↓
-Document Chunking
-↓
-Embeddings (Sentence Transformers)
-↓
-Vector Database (Qdrant)
-↓
-Hybrid Retrieval
-↓
-Reranking
-↓
-LLM Generation
-↓
-Final Answer + Sources
+The system follows a modular retrieval and generation pipeline:
+
+```mermaid
+flowchart TD
+
+A[User Query]
+
+A --> B[Web Search]
+
+B --> C[Page Fetching]
+
+C --> D[Document Chunking]
+
+D --> E[Embeddings]
+
+E --> F[Qdrant Vector DB]
+
+F --> G[Hybrid Retrieval]
+
+G --> H[Reranker]
+
+H --> I[LLM Generation]
+
+I --> J[Answer + Sources]
+```
+
+---
+
+# System Design
+
+The pipeline is divided into clear functional components:
+
+**Retrieval Layer**
+Handles web search, document fetching, and indexing.
+
+**Embedding Layer**
+Converts text into vector representations using Sentence Transformers.
+
+**Storage Layer**
+Stores embeddings in Qdrant for efficient similarity search.
+
+**Retrieval + Ranking Layer**
+Combines semantic search with reranking to improve context quality.
+
+**Generation Layer**
+Uses LLMs to generate grounded answers based on retrieved context.
 
 ---
 
 # Tech Stack
 
-Backend
+**Backend**
 
-* Python
-* FastAPI
+• Python
+• FastAPI
 
-AI / ML
+**AI / ML**
 
-* Sentence Transformers
-* Retrieval-Augmented Generation (RAG)
+• Sentence Transformers
+• Retrieval-Augmented Generation (RAG)
 
-Database
+**Database**
 
-* Qdrant Vector Database
+• Qdrant (vector database)
 
-LLM APIs
+**LLM APIs**
 
-* External LLM providers for generation
-
-Infrastructure
-
-* Python virtual environments
-* REST API architecture
+• External LLM providers for generation
 
 ---
 
 # Installation
 
-Clone the repository:
-
+```bash
 git clone https://github.com/Dev048/iterative-deep-research-engine.git
-
 cd iterative-deep-research-engine
-
-Install dependencies:
-
 pip install -r requirements.txt
+```
 
 Create environment file:
 
+```bash
 cp .env.example .env
+```
 
-Add your API keys to the `.env` file.
+Add your API keys to `.env`.
 
-Run the API server:
+Run the server:
 
+```bash
 uvicorn backend.app.main:app --reload
+```
 
 ---
 
-# Usage
+# API Usage
 
-Send a query to the research endpoint.
+### Endpoint
 
-Example request:
-
+```http
 POST /research
+```
 
+### Request
+
+```json
 {
-"query": "latest breakthroughs in robotics"
+  "query": "latest breakthroughs in robotics"
 }
+```
 
-The system will:
+### Response
 
-1. Search the web
-2. Retrieve relevant documents
-3. Rank sources
-4. Generate an answer using RAG
+```json
+{
+  "answer": "...",
+  "sources": ["url1", "url2"]
+}
+```
 
 ---
 
-# Example Output
+# Example
 
-Query
+**Query**
 
-"What are recent breakthroughs in robotics?"
+```text
+What are recent breakthroughs in robotics?
+```
 
-Answer
+**Answer (Generated)**
 
-Recent breakthroughs in robotics include improvements in AI-driven control systems, humanoid robot development, and advances in robotic manipulation.
+Recent breakthroughs in robotics include advances in AI-driven control systems, humanoid robotics, and autonomous manipulation technologies.
 
-Sources
+**Sources**
 
 * https://example-source-1.com
 * https://example-source-2.com
@@ -136,38 +176,37 @@ Sources
 
 # Project Structure
 
+```
 backend/
-app/
-api/
-retrieval/
-embeddings/
-rag/
-services/
-main.py
+  app/
+    api/
+    retrieval/
+    embeddings/
+    rag/
+    services/
+    main.py
 
 frontend/
-
 tests/
-
 docs/
-
 examples/
-
 assets/
 
 README.md
 requirements.txt
 .env.example
+```
 
 ---
 
 # Future Improvements
 
-* Multi-agent research workflows using LangGraph
-* Streaming responses
-* Improved ranking models
-* Long-term memory for research sessions
-* UI for interactive research
+• Iterative multi-step research loops
+• Multi-agent research workflows
+• Streaming responses
+• Improved reranking models
+• Long-term memory for research sessions
+• Interactive UI
 
 ---
 
